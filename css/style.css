@@ -122,11 +122,7 @@ footer a {
 footer a:hover {
    color: #dbe2ef;
 }
-/* @media (max-width: 1024px) {
-   .container {
-      margin: 2rem 5%
-   }
-} */
+
 
 @media (max-width: 1024px) {
 
