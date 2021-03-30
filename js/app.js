@@ -1,4 +1,4 @@
-const actualYear = new Date().getFullYear();
+const actualYear = 2019;
 //this variable is for have just ten years.
 let minYear = actualYear - 10;
 
@@ -192,29 +192,84 @@ let dataSearch = {
    min: '',
    max: '',
    doors: '',
-   transmision: '', 
+   transmission: '', 
    color: ''
 }
 
 //Event Listener DOM Loaded
-
 const cars = getCars();
-
 document.addEventListener("DOMContentLoaded", () => {
    showCars(cars);
 });
 
 
-//Event Listener for the form
+//Event Listener for the form [brand]
 const brand = document.getElementById('brand')
 brand.addEventListener('input', (e)=>{
    dataSearch.brand = e.target.value;
-
    //Send to call filter car function
    filterCar();
 })
 
+//Event Listener for the form [year]
+const year = document.getElementById('year')
+year.addEventListener('input', (e)=>{
+   dataSearch.year = Number(e.target.value);
+   //Send to call filter car function
+   filterCar();
+})
+
+//Event Listener for the form [min price]
+const minimalPrice = document.getElementById('minimal-price')
+minimalPrice.addEventListener('input', (e)=>{
+   dataSearch.min = Number(e.target.value);
+   //Send to call filter car function
+   filterCar();
+})
+
+//Event Listener for the form [max price]
+const maximunPrice = document.getElementById('maximun-price')
+maximunPrice.addEventListener('input', (e)=>{
+   dataSearch.max = Number(e.target.value);
+   //Send to call filter car function
+   filterCar();
+})
+
+//Event Listener for the form [max price]
+const doors = document.getElementById('doors')
+doors.addEventListener('input', (e)=>{
+   dataSearch.doors = Number(e.target.value);
+   //Send to call filter car function
+   filterCar();
+})
+
+//Event Listener for the form [transmission]
+const transmision = document.getElementById('transmission')
+transmision.addEventListener('input', (e)=>{
+   dataSearch.transmission = e.target.value;
+   //Send to call filter car function
+   filterCar();
+})
+
+//Event Listener for the form [color]
+const color = document.getElementById('color')
+color.addEventListener('input', (e)=>{
+   dataSearch.color = e.target.value;
+   //Send to call filter car function
+   filterCar();
+})
+
+function clearHtml(){
+   document.querySelector('.not-found-message').style.display = 'none';
+
+   const results = document.querySelector(".results");
+   while(results.firstChild){
+      results.removeChild(results.firstChild);
+   }
+}
+
 function showCars(cars) {
+   clearHtml();
    const results = document.querySelector(".results");
    let html = '';
    cars.forEach((car) => {
@@ -235,5 +290,72 @@ function showCars(cars) {
 }
 
 function filterCar(){
+   const result = getCars().filter(filterBrand).filter(filterYear).filter(filterMin).filter(filterMax).filter(filterDoors).filter(filterTrans).filter(filterColor);
+   if(result.length){
+      showCars(result);
+   }else{
+      showNotFound();
+   }
+}
 
+function showNotFound(){
+   clearHtml();
+   let notFoundMessage = document.querySelector('.not-found-message');
+   notFoundMessage.style.display = 'block'; 
+}
+
+function filterBrand(car){
+   if(dataSearch.brand){
+      return car.marca === dataSearch.brand;
+   }else{
+      return car;
+   }
+}
+
+function filterYear(car){
+   if(dataSearch.year){
+      return car.year === dataSearch.year;
+   }else{
+      return car;
+   }
+}
+
+function filterMin(car){
+   if(dataSearch.min){
+      return car.precio >= dataSearch.min;
+   }else{
+      return car;
+   }
+}
+
+function filterMax(car){
+   if(dataSearch.max){
+      return car.precio <= dataSearch.max;
+   }else{
+      return car;
+   }
+}
+
+function filterDoors(car){
+   if(dataSearch.doors){
+      return car.puertas === dataSearch.doors;
+   }else{
+      return car;
+   }
+}
+
+function filterTrans(car){
+   if(dataSearch.transmission){
+      return car.transmision === dataSearch.transmission;
+   }else{
+      return car;
+   }
+}
+
+function filterColor(car){
+   if(dataSearch.color){
+      return car.color === dataSearch.color;
+   }else{
+      return car;
+   }
 }
